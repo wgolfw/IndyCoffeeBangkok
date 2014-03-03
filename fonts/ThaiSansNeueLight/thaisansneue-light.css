@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'ThaiSansNeueLight';
+    src: url('thaisansneue-light.eot');
+    src: url('thaisansneue-light.eot') format('embedded-opentype'),
+         url('thaisansneue-light.woff') format('woff'),
+         url('thaisansneue-light.ttf') format('truetype'),
+         url('thaisansneue-light.svg#ThaiSansNeueLight') format('svg');
+}

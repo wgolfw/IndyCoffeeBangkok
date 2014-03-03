@@ -1,0 +1,580 @@
+<script>
+
+    var ll = null;
+    function mapLocation(geo, callback) {
+
+
+
+        //console.log('set map');
+        $('#btn-get-direction').attr('data-coor', geo);
+
+        var $map = $('#map-location');
+        var iconPin = "images/icons/marker.png";
+        $map.gmap('destroy');
+        $map.gmap({
+            'callback': function() {
+                if (callback != null) {
+                    callback();
+                }
+            }
+        }).bind('init', function(ev, map) {
+            $map.gmap('addMarker', {'position': geo, 'bounds': true, 'icon': iconPin, }).click(function() {
+
+                $map.gmap('openInfoWindow', {'content': "<span style='font-family: thaisansneue-light;font-size: 130%;line-height: 18px;'>" + item.Location + "</span>"}, this);
+            });
+
+            setCafeMapDetails();
+
+
+
+            $map.gmap('option', 'mapTypeId', google.maps.MapTypeId.ROADMAP);
+            $map.gmap('option', 'zoom', 16);
+            $map.gmap('option', 'draggable', false);
+            $map.gmap('option', 'scrollwheel', false);
+            $map.gmap('refresh');
+            $.freeze().hide();
+
+        });
+        delete($map);
+    }
+    $(function() {
+
+        var hash = (getHash()).split("=");
+        var id = hash[1];
+
+        var isFindLocation = false;
+
+        $('#btn-get-direction, .no-drag').click(function() {
+
+            if (devicePlatform === "iOS") {
+                window.location = "maps://maps.apple.com/?q=" + ll + "&z=0.5";
+                return;
+            } else if (devicePlatform === "Android") {
+                window.location = "geo:" + ll + "?q=" + ll;
+                return;
+            } else {
+
+                return;
+                if (isFindLocation) {
+                    $('.no-drag').show();
+
+                    mapLocation(ll, function() {
+                        //console.log('reset');
+                        isFindLocation = false;
+                    });
+                    return;
+                }
+                var destinationCoor = $(this).attr('data-coor');
+
+                var $cafeMap = $('#map-location');
+                $cafeMap.gmap('clear', 'markers');
+                $cafeMap.gmap('closeInfoWindow');
+                $cafeMap.gmap('getCurrentPosition', function(position, status) {
+
+                    $.freeze().show();
+                    var countFind = 0;
+
+                    var timeFind = setInterval(function() {
+                        //console.log('Please wait... a minute');
+
+                        countFind++;
+                        if (isFindLocation) {
+                            clearInterval(timeFind);
+                            //console.log('Found!');
+                            $.freeze().hide();
+                        } else if (countFind >= 1000) {
+                            $.freeze().hide();
+                            clearInterval(timeFind);
+
+                            return;
+                        }
+                    }, 100);
+
+
+                    if (status === 'OK') {
+                        isFindLocation = true;
+                        var clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                        $.getDirectionMap(clientPosition, destinationCoor, function() {
+                            // something callback;'
+                            $cafeMap.gmap('option', 'zoom', 13);
+                            $cafeMap.gmap('refresh');
+
+                        }, $cafeMap);
+                    }
+                });
+
+            }
+
+
+        });
+
+        afterGetData = function(data) {
+            if (data == null) {
+                return;
+            }
+
+
+            // CAFE GALLERY
+            if (data.gallery != null) {
+                var counter = 0;
+                
+                $.each(data.gallery, function(key, item) {
+                    var $galleryCafe = $('.swiper-wrapper');
+
+
+                    var $div = $('<div />', {
+                        'class': "swiper-slide",
+                    });
+                    var $img = $('<img />', {
+                        src: getServerName() + item.Url
+                    }).appendTo($div);
+
+                    $div.appendTo($galleryCafe);
+                });
+
+                if (isMobile()) {
+                    // $('.arrow-right, .arrow-left, .pagination').css({'visibility': 'hidden'});
+                }
+
+                galleryHeight();
+
+                var mySwiper = new Swiper('.swiper-container', {
+                    pagination: '.pagination',
+                    loop: true,
+                    grabCursor: true,
+                    paginationClickable: true
+                })
+                $('.arrow-left').on('click', function(e) {
+                    e.preventDefault();
+                    mySwiper.swipePrev();
+                })
+                $('.arrow-right').on('click', function(e) {
+                    e.preventDefault();
+                    mySwiper.swipeNext();
+                })
+                $('.swiper').css({'visibility': 'visible'});
+
+                if (counter >= 1) {
+
+                    $('.cafe-slide').fadeIn(0);
+                }
+            } else {
+                $('.swiper').remove();
+            }
+
+            // CAFE INFORMATION
+            if (data.cafe != null) {
+                $.each(data.cafe, function(key, item) {
+
+                    $('.btn-share').bind('click', function() {
+                        window.plugins.socialsharing.share(item.Gettingthere, 'Indy Coffee Bangkok', getServerName() + item.Picture);
+                    });
+                    
+                    console.log(item.Description);
+
+                    $('#v-cafe-title').html(item.Location);
+                    $('#v-cafe-title2').html(item.Title);
+                    $('#v-cafe-description').html(item.Description);
+                    $('#v-cafe-location').html(item.Title);
+                    $('#v-cafe-location2').html(item.Location);
+
+                    if (item.Bean == null) {
+                        $('#v-cafe-beans').parent().remove();
+                    } else {
+                        $('#v-cafe-beans').html(item.Bean);
+                    }
+
+                    if (item.Machine == null) {
+                        $('#v-cafe-machine').parent().remove();
+                    } else {
+                        $('#v-cafe-machine').html(item.Machine);
+                    }
+
+                    if (item.Grinder == null) {
+                        $('#v-cafe-grinder').parent().remove();
+                    } else {
+                        $('#v-cafe-grinder').html(item.Grinder);
+                    }
+
+                    if (item.Roastersource == null) {
+                        $('#v-cafe-source').parent().remove();
+                    } else {
+                        $('#v-cafe-source').html(item.Roastersource);
+                    }
+
+                    if (item.Roasterroast == null) {
+                        $('#v-cafe-roaster').parent().remove();
+                    } else {
+                        $('#v-cafe-roaster').html(item.Roasterroast);
+                    }
+
+                    if (item.Roasterschedule == null) {
+                        $('#v-cafe-schedule').parent().remove();
+                    } else {
+                        $('#v-cafe-schedule').html(item.Roasterschedule);
+                    }
+
+
+
+                    if (item.Metroexitnumber !== null) {
+                        // $('#v-cafe-stationExits').remove();
+                    } else {
+
+                    }
+
+                    console.log(item.Mappicture);
+                    if (item.Mappicture != null) {
+                        var $imgMap = $('<img/>', {
+                            'src': getServerName() + item.Mappicture,
+                            'class': 'map-image',
+                        }).appendTo('.no-drag');
+                        $('.no-drag');
+                    }
+
+                    if (item.Metroexitnumber == null) {
+                        $('#v-cafe-stationExits').remove();
+                        $('.bts-icon').remove();
+                    } else {
+                        $('#v-cafe-stationExits').html('(EXIT ' + item.Metroexitnumber + ')');
+                    }
+                    
+
+                    $('#v-cafe-getting-there').html(item.Gettingthere);
+
+                    if (item.Phone == null) {
+                        $('#v-cafe-phone').parent('p').remove();
+                    } else {
+                        $('#v-cafe-phone').html(item.Phone);
+                    }
+
+                    if (item.Mobile == null) {
+                        $('#v-cafe-mobile').parent().remove();
+                    } else {
+                        $('#v-cafe-mobile').html(item.Mobile);
+                    }
+
+                    if (item.Web == null) {
+                        $('#v-cafe-web').parent().remove();
+                    } else {
+                        $('#v-cafe-web').html(item.Web);
+                    }
+
+
+                    if (item.Facebook == null) {
+                        $('#v-cafe-fb').parent().remove();
+                    } else {
+                        $('#v-cafe-fb').attr('data-link', 'http://facebook.com/' + item.Facebook);
+                        $('#v-cafe-fb').html('https://facebook.com/' + item.Facebook);
+                    }
+
+                    if (item.Twitter == null) {
+                        $('#v-cafe-tw').parent().remove();
+                    } else {
+                        $('#v-cafe-tw').attr('data-link', 'http://twitter.com/' + item.Twitter);
+                        $('#v-cafe-tw').html('https://twitter.com/' + item.Twitter);
+                    }
+                    
+                    
+                     if (item.Instagram == null) {
+                        $('#v-cafe-ig').parent().remove();
+                    } else {
+                        $('#v-cafe-ig').attr('data-link', 'https://instagram.com/' + item.Instagram);
+                        $('#v-cafe-ig').html('https://instagram.com/' + item.Instagram);
+                    }
+
+              
+
+                    $('#v-cafe-fb, #v-cafe-tw, #v-cafe-ig').click(function() {
+                        var url = $(this).attr('data-link');
+                        openBrowser(url);
+                    });
+
+
+                    var geo = [item.Latitude, item.Longitude].join(",");
+                    ll = geo;
+                    setCafeMapDetails();
+                    //$('.no-drag').empty();
+                    // mapLocation(geo);
+                });
+            }
+
+            // BREWING
+            if (data.brewingMethod != null) {
+
+                var windowWidth = $(window).width();
+                $('.brewing-slide').width(windowWidth - (17 * 2));
+
+                $.each(data.brewingMethod, function(key, item) {
+                    var $li = $('<li />', {});
+
+                    var $a = $('<a />', {
+                        href: "javascript:void(0);",
+                        title: item.Name,
+                        html: '&nbsp;'
+                    });
+
+                    var $img = $('<img />', {
+                        src: getServerName() + item.Picture,
+                        alt: item.Name,
+                        // 'style': 'border:1px solid #000',
+                    }).appendTo($a);
+
+                    $a.appendTo($li);
+
+                    $('#v-cafe-brewing').append($li);
+                });
+            }
+
+            // SERVICES
+            if (data.service != null) {
+                $.each(data.service, function(key, item) {
+                    var $li = $('<li />', {});
+                    var $a = $('<a />', {
+                        href: "javascript:void(0);",
+                        title: item.Name,
+                        html: '&nbsp;'
+                    });
+                    var $img = $('<img />', {
+                        src: getServerName() + item.Picture,
+                        alt: item.Name,
+                        // 'style': 'border:1px solid #000',
+                    }).appendTo($a);
+                    $a.appendTo($li);
+                    $('#v-cafe-services').append($li);
+                });
+            }
+
+            // METRO STATION
+            if (data.metro != null) {
+                $.each(data.metro, function(key, item) {
+
+                    if (item.Name != "Null") {
+                        $('#v-cafe-stationName').html(item.Name);
+                    }
+                });
+            }
+
+            // DAY OF WEEK 
+            if (data.dayOfWeek != null) {
+                $.each(data.dayOfWeek, function(key, item) {
+                    $("#day-" + item.Day).html([item.Opentime, item.Closetime].join(" - "));
+                });
+            }
+
+            delete(data);
+
+            // success
+            $('.cafe-data').css({'display': 'block'});
+            $('.btn-back-icon').show();
+            //$('.cafe-data').fadeIn(500);
+        };
+
+        if (isMobile()) {
+            $.database({
+                sql: {
+                    data: ['SELECT * FROM cafe WHERE id = ' + id, [], function(tx, results) {
+                            var data = jsEncode(results.rows.item(0).data);
+                            afterGetData(data);
+                        }],
+                }
+            });
+        } else {
+            $.getService({
+                url: getServerName() + "get/service/cafe-detail/" + id,
+                callback: function(data) {
+                    afterGetData(data);
+                }
+            });
+        }
+
+
+
+    });
+</script> 
+
+<div id="cafe-details" class="col-md-12 page-content" style="padding:0; margin:0; overflow-x:hidden;">
+
+
+    <div class="swiper">
+        <a class="arrow-left" href="#"></a> 
+        <a class="arrow-right" href="#"></a>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+
+            </div>
+        </div>
+        <div class="pagination"></div>
+    </div>
+
+
+
+
+    <div class="cafe-slide" style="display:none;">
+
+
+    </div>
+
+
+    <div class="cafe-data" style="display:none;">
+
+
+
+        <div class="bar-txt" style="width:100%; height:38px; margin-top:0;">
+            <h4 id="v-cafe-location">&nbsp;</h4>
+        </div>
+
+
+        <div class="cafe-title">
+            <h1 id="v-cafe-title">&nbsp;</h1>
+        </div>
+
+
+
+        <div class="details-txt" style="margin-top:-10px;margin-bottom:12px;">
+            <p id="v-cafe-description">&nbsp;</p>  
+        </div>
+
+        <!--
+        <div class="share pull-right">
+            <a href="javascript:void(0);">Share</a>
+        </div>-->
+
+        <div class="bar-txt">
+            <h4>COFFEE AVAILABLE</h4>
+        </div>
+
+        <div class="brewing-slide">
+            <ul id="v-cafe-brewing"></ul>
+        </div>
+
+        <div class="cafe-services">
+            <ul>
+                <li><span class="static-txt">BEANS</span> <span id="v-cafe-beans" class="bean-txt">&nbsp;</span></li>
+                <li><span class="static-txt">MACHINE</span> <span id="v-cafe-machine" class="bean-txt">&nbsp;</span></li>
+                <li><span class="static-txt">GRINDER</span> <span id="v-cafe-grinder" class="bean-txt">&nbsp;</span></li>
+            </ul>
+        </div>
+
+        <div class="bar-txt" style="margin-bottom:10px;">
+            <h4>ROASTER</h4>
+        </div>
+        <div class="cafe-services" style="margin-top:-10px;">
+            <ul>
+                <li><span class="static-txt">SOURCE</span> <span id="v-cafe-source" class="bean-txt">&nbsp;</span></li>
+                <li><span class="static-txt">ROASTER</span> <span id="v-cafe-roaster" class="bean-txt">&nbsp;</span></li>
+                <li><span class="static-txt">SCHEDULE</span> <span id="v-cafe-schedule" class="bean-txt">&nbsp;</span></li>
+            </ul>
+        </div>
+
+
+
+        <div class="bar-txt" style="margin-bottom:13px;">
+            <h4>HOW TO GETTING THERE</h4>
+
+        </div>
+
+
+
+
+
+        <div class="details-txt">
+
+             
+
+            <div class="bts-icon" style="margin-top:3px;">
+                <img src="images/icons/bts.png"  />
+                <div>
+                    <p id="v-cafe-stationName" style="clear:none;">&nbsp;</p>
+                    <p id="v-cafe-stationExits">&nbsp;</p>
+                </div>
+            </div>
+
+
+            <p id="v-cafe-getting-there">&nbsp;</p>  
+
+        </div>
+
+        <div class="cafe-map">
+            <div class="no-drag"></div>
+            <div id="map-location"></div>
+            <i class="pull-right btn-direction" data-coor="" id="btn-get-direction"  >&nbsp;</i>
+
+
+
+            <div class="bar-txt map-name" style="display:none;">
+                <h4><span id="v-cafe-title2">&nbsp;</span> </h4>
+            </div>
+        </div>
+
+
+
+
+        <div class="bar-txt">
+            <h4>SHOP INFORMATION</h4>
+        </div>
+
+
+        <div class="cafe-services-icon brewing-slide">
+            <ul id="v-cafe-services">
+
+            </ul>
+        </div>
+
+
+
+        <div class="cafe-getting">
+
+
+            <div class="details-txt" style="padding:0;">
+
+
+
+
+
+                <div class="open-hour">
+                    <h4>Open Hour</h4>
+                    <ul>
+                        <li><span class="day-name">Mon.</span> <span id="day-m">&nbsp;</span></li>
+                        <li><span class="day-name">Tue.</span> <span id="day-t">&nbsp;</span></li>
+                        <li><span class="day-name">Wed.</span> <span id="day-w">&nbsp;</span></li>
+                        <li><span class="day-name">Thu.</span> <span id="day-th">&nbsp;</span></li>
+                        <li><span class="day-name">Fri.</span> <span id="day-f">&nbsp;</span></li>
+                        <li><span class="day-name">Sat.</span> <span id="day-s">&nbsp;</span></li>
+                        <li><span class="day-name">Sun.</span> <span id="day-sa">&nbsp;</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+
+        <div class="details-txt social-link" style="margin-bottom:18px;" >
+            <h4>Contact</h4>
+            <p><span class="txt-span">Tel.</span><span id="v-cafe-phone"></span></p>
+            <p><span class="txt-span">Mobile.</span><span id="v-cafe-mobile"></span></p>
+            <p><span class="txt-span">Web:</span><a href="javascript:void(0);" id="v-cafe-web">http://</a></p>
+            <p><span class="txt-span">Facebok:</span><a href="javascript:void(0);" id="v-cafe-fb">https://facebook.com/</a></p>
+            <p><span class="txt-span">Instagram:</span><a href="javascript:void(0);" id="v-cafe-ig">https://instagram.com/</a></p>
+            <p><span class="txt-span">Twitter:</span><a href="javascript:void(0);" id="v-cafe-tw">https://twitter.com/</a></p>
+
+
+            <div class=""  style="margin-top:22px; margin-right:17px;">
+                <a href="javascript:void(0);" class="btn btn-default btn-block btn-share">SHARE</a>
+            </div>
+        </div>
+
+        <div class="cafe-services-icon social-icon" style="display:none;">
+            <ul>
+                <li><a href="javascript:void(0);" target="_blank" id="v-cafe-fb"><img style="width:42px;" src="images/icons/fb.png" /></a></li>
+                <li><a href="javascript:void(0);" target="_blank" id="v-cafe-tw"><img style="width:42px;" src="images/icons/tw.png" /></a></li>
+
+            </ul>
+        </div>
+
+
+    </div>
+</div> 
+
+

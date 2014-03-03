@@ -1,0 +1,124 @@
+<script>
+    $(function() {
+
+        var hash = (getHash()).split("=");
+        var id = hash[1];
+
+        afterGetData = function(data) {
+            if (data == null) {
+                return;
+            }
+            // NEWS DETAILS
+            if (data.news != null) {
+                $.each(data.news, function(key, item) {
+                    $('#v-news-title').html(item.Title);
+                    $('#v-news-details-en').html(item.Detailsen);
+                });
+            }
+
+            // NEWS GALLERY
+            if (data.gallery != null) {
+                var counter = 0;
+                $.each(data.gallery, function(key, item) {
+                    var $galleryCafe = $('.swiper-wrapper');
+
+                    var $div = $('<div />', {
+                        'class': "swiper-slide",
+                    });
+                    var $img = $('<img />', {
+                        src: getServerName() + item.Url
+                    }).appendTo($div);
+
+                    $div.appendTo($galleryCafe);
+                });
+
+
+
+                if (isMobile()) {
+                    $('.arrow-right, .arrow-left, .pagination').css({'visibility': 'hidden'});
+                }
+
+                galleryHeight();
+
+                var mySwiper = new Swiper('.swiper-container', {
+                    pagination: '.pagination',
+                    loop: true,
+                    grabCursor: true,
+                    paginationClickable: true
+                })
+                $('.arrow-left').on('click', function(e) {
+                    e.preventDefault();
+                    mySwiper.swipePrev();
+                })
+                $('.arrow-right').on('click', function(e) {
+                    e.preventDefault();
+                    mySwiper.swipeNext();
+                })
+                $('.swiper').css({'visibility': 'visible'});
+
+
+
+
+            } else {
+                $('.swiper').fadeOut(0);
+            }
+
+            // success
+            $('.btn-back-icon').show();
+            $('.news-data').css({'display': 'block'});
+
+            $('.share a').bind('click', function() {
+                window.plugins.socialsharing.share('Dummy data.', 'Indy Coffee Bangkok');
+            });
+        }
+
+
+        if (isMobile()) {
+            $.database({
+                sql: {
+                    data: ['SELECT * FROM news WHERE id = ' + id, [], function(tx, results) {
+                            var data = jsEncode(results.rows.item(0).data);
+                            afterGetData(data);
+                        }],
+                }
+            });
+        } else {
+            $.getService({
+                url: getServerName() + "get/service/news-detail/" + id,
+                callback: function(data) {
+                    afterGetData(data);
+                },
+            });
+        }
+
+
+    });
+</script>
+
+<div id="cafe-details" class="col-md-12 page-content" style="padding:0; margin:0; overflow-x:hidden;"> 
+
+
+    <div class="swiper" style="margin-bottom:0;">
+        <a class="arrow-left" href="#"></a> 
+        <a class="arrow-right" href="#"></a>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+
+            </div>
+        </div>
+        <div class="pagination"></div>
+    </div>
+
+
+
+
+    <div class="cafe-data news-data" style="display:none;">
+        <div class="brewing-slide" style="margin:0;">
+            <h1 id="v-news-title">&nbsp;</h1>
+            <div class="share pull-right">
+                <a href="javascript:void(0);">Share</a>
+            </div>
+        </div>
+        <div class="details-txt" id="v-news-details-en">&nbsp;</div>
+    </div>
+</div>

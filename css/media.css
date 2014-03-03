@@ -1,0 +1,57 @@
+@media screen and (max-width: 480px) {
+    .splash-screen {
+        background-size:360px 640px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #cafe-details .carousel-inner .item img {
+        height:230px;
+    }
+    .cafe-list ul li .data-image .thumb-list {
+    
+    }
+}
+
+@media screen and (max-width: 360px) {
+   .cafe-list ul li .time-detail span.day-time {
+        width:84px;
+    }
+
+}
+
+
+
+
+@media screen and (max-width: 355px) {
+    #page-about .about .team ul li {
+        width:100%;
+    }
+    
+    #page-about .about .team {
+        overflow:hidden;
+    }
+}
+
+@media screen and (max-width: 320px) {
+   
+    .cafe-list ul li {
+        height:130px;
+    }
+    .news-list ul li {
+        height:130px;
+    }
+    
+    .news-list ul li .data-detail .thumb-list {
+        width:120px;
+        height:100%;
+    }
+
+}
+
+
+@media only screen and (-webkit-device-pixel-ratio: 2) {
+    .page {
+     //   height:500px !important;
+    }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Indy Coffee Bangkok</title>
+        <link rel="icon" href="images/app-icon.png" type="image/png">
+        <script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>
+        <script src="js/jquery.transit.js" type="text/javascript"></script>
+        <link type="text/css" rel="stylesheet" href="css/device.css" />
+
+        <script>
+            $.screen = function(options) {
+                var opts = $.extend({
+                    selector: '.screen',
+                    callback: function() {
+                    },
+                }, options);
+
+                var $screen = $(opts.selector);
+                return {
+                };
+
+            };
+
+            $.preload = function(imgs, callback, debug) {
+                var len = imgs.length;
+                var counter = 0;
+
+                if (debug) {
+                    var $p = $('<p/>', {
+                        'html': 'Preload images: <span>0</span>/' + len,
+                        'class': 'debug'
+                    }).prependTo('body');
+                }
+
+                for (i = 0; i < len; i++) {
+                    var $img = $('<img/>', {
+                        'src': imgs[i],
+                        'style': 'display:none;',
+                    }).load(function() {
+                        counter++;
+                        if (debug) {
+                            $p.find('span').html(counter);
+                        }
+                    });
+
+                }
+
+
+                var chkImg = setInterval(function() {
+                    if (counter === len) {
+                        clearInterval(chkImg);
+                        if (callback != null)
+                            callback();
+                    }
+                }, 100);
+            }
+
+            $(function() {
+
+
+                var iframeLoaded = false;
+
+                $.preload([
+                    'images/splash.png',
+                ], function() {
+                    //something callback
+                     
+                    var $screen = $('.screen');
+
+                    $screen.stop(true, true).transition({
+                        scale: 0,
+                        opacity: 0,
+                    });
+                    $screen.css({'display': 'block'});
+                    $screen.stop(true, true).transition({
+                        scale: 1,
+                        opacity: 1,
+                    });
+
+
+                    var iframeInt = setInterval(function() {
+                        if (iframeLoaded) {
+                            clearInterval(iframeInt);
+
+                            setTimeout(function() {
+                                $screen.find('.splash-screen').fadeOut(100, function() {
+                                    $(this).remove();
+                                });
+                            }, 500);
+
+                        }
+                    }, 100);
+                }, false);
+
+                $('iframe').load(function() {
+                    iframeLoaded = true;
+                });
+            });
+
+
+        </script>
+
+
+    </head>
+
+    <body>
+
+
+        <div class="device  iphone5">
+        <div class="screen border-radius">
+            <div class="splash-screen"></div>
+            <iframe src="index.html" frameborder="0" class="border-radius"></iframe>  
+        </div>
+        </div>
+    </body>
+</html>
