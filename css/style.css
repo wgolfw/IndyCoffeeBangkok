@@ -51,6 +51,8 @@ h1 {
     font-family: "bebas";
 }
 
+code { white-space: initial; }
+
 html, body {
     min-height:100%;
     height:100%;
