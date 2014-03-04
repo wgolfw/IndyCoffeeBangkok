@@ -784,7 +784,7 @@ h1#v-cafe-title {
     overflow-x:auto;
 }
 #cafe-details .cafe-data .brewing-slide ul {
-    /*    min-width:1000px;*/
+    min-width:1000px; 
 }
 #cafe-details .cafe-data .cafe-services {
     clear:both;
@@ -806,9 +806,9 @@ h1#v-cafe-title {
 
 #cafe-details .cafe-data .cafe-services ul li span.static-txt {
     float: left;
-    width: 100px;
-
-    margin-right:10px;
+    width: 90px;
+    /*
+        margin-right:10px;*/
 
 }
 
@@ -893,7 +893,7 @@ h1#v-cafe-title {
     /*    margin: -30px -17px 20px 0;*/
 
     padding: 0;
-    float: left;
+    /*    float: left;*/
 
 }
 
@@ -937,9 +937,14 @@ h1#v-cafe-title {
     clear:both;
 }
 
+.bts-icon {
+    display:none;
+}
+
 .bts-icon img {
     float: left;
     margin-right: 10px;
+    height:52px;
 } 
 .bts-icon div {
     float:left;
@@ -1051,10 +1056,12 @@ span[id^="day-"]{
 
 .logo {
     display: block;
-    margin: 0 auto;
-    width: 200px;
+    /* margin: 0 auto; */
+    width: 120px;
     padding-top: 10px;
-    margin-bottom:25px;
+    margin-bottom: 3px;
+    margin-left: -2px;
+
 }
 
 
@@ -1118,7 +1125,7 @@ span[id^="day-"]{
     height: 8px;
     border-radius: 8px;
     background: #999;
-/*    box-shadow: 0px 1px 2px #555 inset;*/
+    /*    box-shadow: 0px 1px 2px #555 inset;*/
     margin: 0 3px;
     cursor: pointer;
     opacity:0.7;
@@ -1220,18 +1227,18 @@ span[id^="day-"]{
 }
 
 .map-image {
-/*    width:100%;
-    height:100%;*/
+    /*    width:100%;
+        height:100%;*/
 
-position: absolute;
- 
- 
- 
-left: 50%;
-top: 50%;
-margin-left:-679px;
-margin-top:-328px;
- 
+    position: absolute;
+
+
+
+    left: 50%;
+    top: 50%;
+    margin-left:-512px;
+    margin-top:-350px;
+
 }
 
 span.txt-span {
@@ -1250,4 +1257,34 @@ span.txt-span {
     text-overflow: ellipsis;
     float: left;
     max-width: 190px;
+}
+
+#v-cafe-description2 {
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 15px !important;
+}
+
+ul.about-txt  {
+    padding:0;
+    margin:0;
+}
+
+ul.about-txt  li {
+    list-style: none;
+    font-weight: normal;
+    font-size: 18px;
+    line-height:18px;
+    font-family: 'thaisansneue-light';
+}
+
+
+#v-cafe-fb, #v-cafe-tw, #v-cafe-ig {
+text-overflow: ellipsis;
+float: left;
+width: 220px;
+overflow: hidden;
+word-wrap: normal;
+white-space: nowrap;
+
 }

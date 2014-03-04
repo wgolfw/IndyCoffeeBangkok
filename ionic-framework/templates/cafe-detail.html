@@ -1,0 +1,196 @@
+<!--
+  This template loads for the 'tab.pet-detail' state (app.js)
+  'pet' is a $scope variable created in the PetCtrl controller (controllers.js)
+  The PetCtrl pulls data from the Pets service (service.js)
+  The Pets service returns an array of pet data
+-->
+
+<view  title="cafeName">
+
+
+
+
+
+    <content  has-header="true"    padding="false"> 
+        <data ng-repeat="item in pet.cafe">
+            <slide-box on-slide-changed="slideChanged(index)"  >
+              
+                    <slide ng-repeat="img in pet.gallery">
+                        <img src="{{ serverName }}{{ img.Url }}">
+                    </slide> 
+               
+
+            </slide-box>    
+
+
+
+
+            <div class="card">
+                <div class="item item-divider">
+                    Description 
+               
+
+                </div>
+                <div class="item item-text-wrap">
+                    {{ item.Description}}
+                </div>
+            </div>
+
+
+
+
+
+            <div class="card">
+                <div class="item item-divider">
+                    Location
+                </div>
+                <div class="item item-text-wrap">
+                    {{ item.Location}}
+                </div>
+            </div>
+
+            <div class="card">
+
+                <ul class="list">
+                    <li class="item item-divider">
+                        Method
+                    </li>
+                    <li class="item">
+                       
+                        <h2>Beans</h2>
+                        <p>{{item.Bean}}</p>
+                    </li>
+                    <li class="item">
+                         
+                        <h2>Machine</h2>
+                        <p>{{item.Machine}}</p>
+                    </li>
+                    <li class="item">
+                        
+                        <h2>Grinder</h2>
+                        <p>{{item.Grinder}}</p>
+                    </li>
+
+                    <li class="item item-divider">
+                        Roaster
+                    </li>
+                    <li class="item">
+                         
+                        <h2>Source</h2>
+                        <p>{{item.Roastersource}}</p>
+                    </li>
+                    <li class="item">
+                         
+                        <h2>Roast</h2>
+                        <p>{{item.Roasterroast}}</p>
+                    </li>
+                    <li class="item">
+                        
+                        <h2>Schedule</h2>
+                        <p>{{item.Roasterschedule}}</p>
+                    </li>
+                </ul> 
+            </div>
+
+
+
+
+
+
+
+
+            <div class="card">
+
+                <div class="item item-divider">
+                    How to getting there
+                </div>
+                <div class="item item-text-wrap">
+                    {{ item.Gettingthere}}
+                </div>
+
+            </div>
+
+                <!--
+            <div class="card">
+
+                <google-map 
+
+                    class="map-location"
+                    >
+
+                    <markers>
+                        <marker ng-repeat="marker in markers" coords="marker"></marker>
+                    </markers>
+                </google-map>
+            </div>-->
+
+            <div class="card">
+                <div class="item item-divider">
+                    SHOP INFORMATION
+                </div>
+                <div class="item item-text-wrap">
+                    ...
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="item item-divider">
+                    OPEN HOUR
+                </div>
+                <ul class="list">
+                    <li class="item" ng-repeat="day in pet.dayOfWeek" > 
+                        {{ convertDayName(day.Day) }}
+                        <span class="item-note">
+                            {{day.Opentime}} - {{day.Closetime}}
+                        </span>
+
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+            <div class="card">
+                <div class="item item-divider">
+                    CONTACT
+                </div>
+                <ul class="list">
+                    <li class="item item-icon-left">
+                        <i class="icon ion-ios7-telephone"></i>
+                        <h2>Telephone</h2>
+                        <p>{{item.Phone}}</p>
+                    </li>
+                    <li class="item item-icon-left">
+                        <i class="icon ion-iphone"></i>
+                        <h2>Mobile</h2>
+                        <p>{{item.Mobile}}</p>
+                    </li>
+                    <li class="item item-icon-left" ng-if="item.Website != ''">
+                        <i class="icon ion-ios7-monitor"></i>
+                        <h2>Web</h2>
+                        <p>{{item.Website}}</p>
+                    </li>
+                    <li class="item item-icon-left" ng-if="item.Facebook != ''">
+                        <i class="icon ion-social-facebook"></i>
+                        <h2>Facebok</h2>
+                        <p>{{item.Facebook}}</p>
+                    </li>
+                    <li class="item item-icon-left" ng-if="item.Twitter != ''">
+                        <i class="icon ion-social-twitter"></i>
+                        <h2>Twitter</h2>
+                        <p>{{item.Twitter}}</p>
+                    </li>
+                     <li class="item item-icon-left" ng-if="item.Twitter != ''">
+                        <i class="icon ion-social-instagram"></i>
+                        <h2>Instagram</h2>
+                        <p>{{item.Twitter}}</p>
+                    </li>
+                </ul>
+            </div>
+
+            <p><a class="button button-small icon ion-arrow-left-b" href="#/tab/pets">Back</a></p>
+        </data>
+    </content>
+</view>

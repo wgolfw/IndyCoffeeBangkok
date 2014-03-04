@@ -1,0 +1,59 @@
+<view title="'Google Maps'">
+    <content has-header="true" has-tabs="true">
+
+
+        <google-map 
+            center="map.center"
+            zoom="map.zoom"
+            draggable="true"
+            dragging="map.dragging"
+            bounds="map.bounds"
+            events="map.events"
+            options="map.options">
+            >
+
+
+            <layer type="TrafficLayer" show="map.showTraffic"></layer>
+            <layer type="BicyclingLayer" show="map.showBicycling"></layer>
+            <layer namespace="weather" type="WeatherLayer" show="map.showWeather"></layer>
+            <layer namespace="visualization" type="HeatmapLayer" show="map.showHeat" onCreated="map.heatLayerCallback"></layer>
+
+
+
+            <markers models="map.dynamicMarkers" coords="'self'" icon="'icon'" click="'onClicked'" fit='true'>
+                <windows show="'showWindow'" closeClick="'closeClick'">
+                    <p>Dynamic Marker created via a delay!</p>
+
+                    <p ng-non-bindable>This is an info window at {{ latitude | number:4 }}, {{ longitude | number:4 }}!</p>
+
+                    <p class="muted">My marker will stay open when the window is popped up!</p>
+                </windows>
+            </markers>
+
+            <markers models="map.mexiMarkers" coords="'self'" icon="'icon'" click="'onClicked'" >
+                <windows show="'showWindow'" closeClick="'closeClick'">
+                    <p>Mexi!</p>
+                    <p ng-non-bindable>This is an info window at {{ latitude | number:4 }}, {{ longitude | number:4 }}!</p>
+                    <p class="muted">My marker will stay open when the window is popped up!</p>
+                </windows>
+            </markers>
+            
+            <marker ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
+                <marker-label content="m.title" anchor="22 0" class="marker-labels"/>
+                <window show="m.showWindow" closeClick="m.closeClick()">
+                    <p>Tffdghis is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>
+
+                    <p class="muted">My marker will stay open when the window is popped up!</p>
+                </window>
+            </marker>
+
+
+
+            <markers>
+                <marker ng-repeat="marker in markers" coords="marker"></marker>
+            </markers>
+        </google-map>
+
+
+    </content>
+</view>

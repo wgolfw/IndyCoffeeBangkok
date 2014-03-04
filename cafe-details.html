@@ -118,7 +118,7 @@
             // CAFE GALLERY
             if (data.gallery != null) {
                 var counter = 0;
-                
+
                 $.each(data.gallery, function(key, item) {
                     var $galleryCafe = $('.swiper-wrapper');
 
@@ -170,12 +170,19 @@
                     $('.btn-share').bind('click', function() {
                         window.plugins.socialsharing.share(item.Gettingthere, 'Indy Coffee Bangkok', getServerName() + item.Picture);
                     });
-                    
-                    console.log(item.Description);
+
+
 
                     $('#v-cafe-title').html(item.Location);
                     $('#v-cafe-title2').html(item.Title);
-                    $('#v-cafe-description').html(item.Description);
+                    $('#v-cafe-description').html(item.Reviewen);
+                    
+                    if (item.Reviewth == null) {
+                        $('#v-cafe-description2').remove();
+                    } else {
+                         $('#v-cafe-description2').html(item.Reviewth);
+                    }
+                   
                     $('#v-cafe-location').html(item.Title);
                     $('#v-cafe-location2').html(item.Location);
 
@@ -197,25 +204,31 @@
                         $('#v-cafe-grinder').html(item.Grinder);
                     }
 
+                    var counterRoaster = 0;
                     if (item.Roastersource == null) {
+                        counterRoaster++;
                         $('#v-cafe-source').parent().remove();
                     } else {
                         $('#v-cafe-source').html(item.Roastersource);
                     }
 
                     if (item.Roasterroast == null) {
+                         counterRoaster++;
                         $('#v-cafe-roaster').parent().remove();
                     } else {
                         $('#v-cafe-roaster').html(item.Roasterroast);
                     }
 
                     if (item.Roasterschedule == null) {
+                         counterRoaster++;
                         $('#v-cafe-schedule').parent().remove();
                     } else {
                         $('#v-cafe-schedule').html(item.Roasterschedule);
                     }
 
-
+                    if ( counterRoaster === 3) {
+                        $('.roaster-title').remove();
+                    }
 
                     if (item.Metroexitnumber !== null) {
                         // $('#v-cafe-stationExits').remove();
@@ -238,7 +251,7 @@
                     } else {
                         $('#v-cafe-stationExits').html('(EXIT ' + item.Metroexitnumber + ')');
                     }
-                    
+
 
                     $('#v-cafe-getting-there').html(item.Gettingthere);
 
@@ -274,16 +287,16 @@
                         $('#v-cafe-tw').attr('data-link', 'http://twitter.com/' + item.Twitter);
                         $('#v-cafe-tw').html('https://twitter.com/' + item.Twitter);
                     }
-                    
-                    
-                     if (item.Instagram == null) {
+
+
+                    if (item.Instagram == null) {
                         $('#v-cafe-ig').parent().remove();
                     } else {
                         $('#v-cafe-ig').attr('data-link', 'https://instagram.com/' + item.Instagram);
                         $('#v-cafe-ig').html('https://instagram.com/' + item.Instagram);
                     }
 
-              
+                    // $('#v-cafe-ig').attr('data-link', 'https://instagram.com/' + item.Instagram);
 
                     $('#v-cafe-fb, #v-cafe-tw, #v-cafe-ig').click(function() {
                         var url = $(this).attr('data-link');
@@ -294,8 +307,8 @@
                     var geo = [item.Latitude, item.Longitude].join(",");
                     ll = geo;
                     setCafeMapDetails();
-                    //$('.no-drag').empty();
-                    // mapLocation(geo);
+                     //$('.no-drag').empty();
+                     // mapLocation(geo);
                 });
             }
 
@@ -358,7 +371,12 @@
             // DAY OF WEEK 
             if (data.dayOfWeek != null) {
                 $.each(data.dayOfWeek, function(key, item) {
-                    $("#day-" + item.Day).html([item.Opentime, item.Closetime].join(" - "));
+                    if (parseInt(item.Isclose) === 1) {
+                        $("#day-" + item.Day).html('Closed');
+                    } else {
+                        $("#day-" + item.Day).html([item.Opentime, item.Closetime].join(" - "));
+                    }
+                    
                 });
             }
 
@@ -433,6 +451,7 @@
 
         <div class="details-txt" style="margin-top:-10px;margin-bottom:12px;">
             <p id="v-cafe-description">&nbsp;</p>  
+            <p id="v-cafe-description2">&nbsp;</p>  
         </div>
 
         <!--
@@ -456,7 +475,7 @@
             </ul>
         </div>
 
-        <div class="bar-txt" style="margin-bottom:10px;">
+        <div class="bar-txt roaster-title" style="margin-bottom:10px;">
             <h4>ROASTER</h4>
         </div>
         <div class="cafe-services" style="margin-top:-10px;">
@@ -480,7 +499,7 @@
 
         <div class="details-txt">
 
-             
+
 
             <div class="bts-icon" style="margin-top:3px;">
                 <img src="images/icons/bts.png"  />
@@ -555,12 +574,12 @@
             <p><span class="txt-span">Tel.</span><span id="v-cafe-phone"></span></p>
             <p><span class="txt-span">Mobile.</span><span id="v-cafe-mobile"></span></p>
             <p><span class="txt-span">Web:</span><a href="javascript:void(0);" id="v-cafe-web">http://</a></p>
-            <p><span class="txt-span">Facebok:</span><a href="javascript:void(0);" id="v-cafe-fb">https://facebook.com/</a></p>
+            <p><span class="txt-span">Facebook:</span><a href="javascript:void(0);" id="v-cafe-fb">https://facebook.com/</a></p>
             <p><span class="txt-span">Instagram:</span><a href="javascript:void(0);" id="v-cafe-ig">https://instagram.com/</a></p>
             <p><span class="txt-span">Twitter:</span><a href="javascript:void(0);" id="v-cafe-tw">https://twitter.com/</a></p>
 
 
-            <div class=""  style="margin-top:22px; margin-right:17px;">
+            <div class=""  style="clear:both; margin-top:35px; margin-right:17px;">
                 <a href="javascript:void(0);" class="btn btn-default btn-block btn-share">SHARE</a>
             </div>
         </div>

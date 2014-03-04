@@ -285,6 +285,7 @@ $.sortCafeList = function() {
                     isShowCafeClosed: true,
                 });
             }
+            cafeClosed =  new Array();
         },
     };
 };
@@ -301,7 +302,9 @@ $.addCafeList = function(options) {
         closeTime: "00:00",
         thumb: "#",
         curTime: "00:00",
+        dayName: null,
         isShowCafeClosed: true,
+        isClosed: true,
     }, options);
 
     var curTime = (opts.curTime);
@@ -314,21 +317,71 @@ $.addCafeList = function(options) {
     openTime = parseInt(openTime.replace(regExp, "$1$2$3"));
     closeTime = parseInt(closeTime.replace(regExp, "$1$2$3"));
 
+
+
+    var dayName = "";
+    switch (opts.dayName) {
+        case "m":
+            dayName = "Mon";
+            break;
+        case "t":
+            dayName = "Tue";
+            break;
+        case "w":
+            dayName = "Wed";
+            break;
+        case "th":
+            dayName = "Thu";
+            break;
+        case "f":
+            dayName = "Fri";
+            break;
+        case "sa":
+            dayName = "Sat";
+            break;
+        case "s":
+            dayName = "Sun";
+            break;
+    }
+
+    var openHour = null;
+
+
     if ((curTime > openTime) && (curTime < closeTime)) {
         classTime = 'time-open';
         statusTime = 'OPEN';
+
+
+        if (parseInt(opts.isClosed) === 1) {
+            opts.openTime = "Closed " + dayName + ".";
+            opts.closeTime = "";
+
+            // openHour = "Closed " + dayName + ".";
+            classTime = 'time-closed';
+            statusTime = 'CLOSED';
+            cafeClosed.push(opts);
+            return;
+        }
+
+
+
     } else {
         classTime = 'time-closed';
         statusTime = 'CLOSED';
-
+        if (parseInt(opts.isClosed) === 1) {
+            opts.openTime = "Closed " + dayName + ".";
+            opts.closeTime = "";
+            //openHour = "Closed " + dayName + ".";
+        }
         if (!opts.isShowCafeClosed) {
             cafeClosed.push(opts);
-            // console.log(cafeClosed);
             return;
         }
 
     }
 
+
+    openHour = (opts.closeTime === "") ? opts.openTime : opts.openTime + "-" + opts.closeTime;
 
     var $li = $('<li />', {});
 
@@ -354,7 +407,7 @@ $.addCafeList = function(options) {
 
     var $pTimeDetail = $('<p />', {
         'class': "time-detail",
-        'html': "<span class='day-time'>" + opts.openTime + "-" + opts.closeTime + "</span> <span class='" + classTime + "'>" + statusTime + "</span>"
+        'html': "<span class='day-time'>" + openHour + "</span> <span class='" + classTime + "'>" + statusTime + "</span>"
     }).appendTo($divDataDetail);
 
     var $divDataImage = $('<div />', {
@@ -650,7 +703,13 @@ $.desktopRenderer = function(options) {
                     thumb: getServerName() + item.Picture,
                     curTime: item.Curtime,
                     isShowCafeClosed: false,
+                    isClosed: item["Dayofweek.Isclose"],
+                    dayName: item["Dayofweek.Day"],
                 });
+
+                // 1= true
+                //  console.log(item.Title);
+                //  console.log('isClosed: ' + item["Dayofweek.Isclose"]);
             });
             $.sortCafeList().orderByClosed();
             isCafeSync = true;

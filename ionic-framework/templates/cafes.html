@@ -1,0 +1,28 @@
+<!-- 
+  This template gets placed in the Pet tab's <nav-view> directive.
+  It was wired up in the app config (app.js) 
+  The 'pets' data comes from its $scope within PetIndexCtrl (controller.js)
+-->
+<view title="'Coffee Shops'">
+    <content has-header="true" has-tabs="true"> 
+        <div class="list">
+            <row ng-repeat="row in rows">
+                <a ng-repeat="cafe in row.cafe" class="item item-thumbnail-left" href="#/tab/cafe/{{cafe.Id}}">
+                    <img src="{{ serverName}}{{cafe.Picture}}" >
+
+                    <!--
+                    <span class="badge badge-balanced" ng-if=' isOpen(cafe["Dayofweek.Opentime"], cafe["Dayofweek.Closetime"], cafe.Curtime) == "OPEN"'>
+                        {{isOpen(cafe["Dayofweek.Opentime"], cafe["Dayofweek.Closetime"], cafe.Curtime)}}
+                    </span> 
+
+                    <span class="badge badge-assertive" ng-if=' isOpen(cafe["Dayofweek.Opentime"], cafe["Dayofweek.Closetime"], cafe.Curtime) == "CLOSED"'>
+                        {{isOpen(cafe["Dayofweek.Opentime"], cafe["Dayofweek.Closetime"], cafe.Curtime)}}
+                    </span>     
+                    -->
+                    <h2>{{cafe.Title}}</h2>
+                    <p>{{cafe.Location}}</p>
+                    <p>{{cafe["Dayofweek.Opentime"]}} - {{cafe["Dayofweek.Closetime"]}}</p>
+                </a>
+            </row>
+    </content>
+</view>

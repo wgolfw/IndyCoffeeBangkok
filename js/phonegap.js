@@ -194,6 +194,8 @@ function onDeviceReady() {
                                     thumb: getServerName() + cafe.Picture,
                                     curTime: cafe.Curtime,
                                     isShowCafeClosed: false,
+                                    isClosed: cafe["Dayofweek.Isclose"],
+                                    dayName: cafe["Dayofweek.Day"],
                                 });
                             }
                             $.sortCafeList().orderByClosed();

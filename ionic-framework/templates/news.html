@@ -1,0 +1,20 @@
+<!--
+  This template loads for the 'tab.adopt' state (app.js)
+-->
+<view title="'News'">
+  <content has-header="true" has-tabs="true">
+     <div class="list">
+
+            <row ng-repeat="row in rows">
+                <a ng-repeat="news in row.news" class="item item-thumbnail-left" href="#/tab/cafe/{{news.Id}}">
+                    <img src="{{ serverName }}{{news.Picture}}" >
+                    <h2>{{news.Title}}</h2> 
+                 
+                    <span ng-bind-html="news.Detailsen"></span>
+                </a>
+            </row>
+ 
+            
+        </div>
+  </content>
+</view>

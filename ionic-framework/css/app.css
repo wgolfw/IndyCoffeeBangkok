@@ -1,0 +1,55 @@
+/* Your app's CSS, go crazy, make it your own */
+
+.ionic-logo {
+  display: block;
+  margin: 15px auto;
+  width: 96px;
+  height: 96px;
+}
+
+
+
+.icon-app {
+       background-size:cover;
+    background-repeat: no-repeat; 
+    background-position:0 2px;
+    width:30px;
+    margin-top:7px !important;
+}
+.icon-home {
+    background-image:url('tabs2/home@2x.png'); 
+
+}
+
+.icon-map {
+    background-image:url('tabs2/map@2x.png'); 
+
+}
+
+.icon-news {
+    background-image:url('tabs2/news@2x.png'); 
+
+}
+.icon-about {
+    background-image:url('tabs2/about@2x.png'); 
+
+}
+
+
+.map-location .angular-google-map-container  {
+    height:200px !important;
+}
+.angular-google-map-container {  height:1000px; }
+
+.team {
+    border:1px solid #EAEAEA;
+}
+
+slide img {
+/*    height:300px;
+    width:auto;*/
+margin: 0 auto;
+display: block;
+ height:320px;
+ width:auto;
+}
