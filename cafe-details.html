@@ -91,6 +91,7 @@
             <h4>Contact</h4>
             <p><span class="txt-span">Tel.</span><span id="v-cafe-phone"></span></p>
             <p><span class="txt-span">Mobile.</span><span id="v-cafe-mobile"></span></p>
+            <p><span class="txt-span">Email:</span><a href="javascript:void(0);" id="v-cafe-email">@</a></p>
             <p><span class="txt-span">Web:</span><a href="javascript:void(0);" id="v-cafe-web">http://</a></p>
             <p><span class="txt-span">Facebook:</span><a href="javascript:void(0);" id="v-cafe-fb">https://facebook.com/</a></p>
             <p><span class="txt-span">Instagram:</span><a href="javascript:void(0);" id="v-cafe-ig">https://instagram.com/</a></p>
@@ -412,6 +413,13 @@
                         $('#v-cafe-ig').html(item.Instagram);
                     }
 
+
+                    if (item.Email == null) {
+                        $('#v-cafe-email').parent().remove();
+                    } else {
+                        $('#v-cafe-email').attr('data-link', item.Email);
+                        $('#v-cafe-email').html(item.Email);
+                    }
 
                     $('#v-cafe-fb, #v-cafe-tw, #v-cafe-ig').click(function() {
                         var url = $(this).attr('data-link');

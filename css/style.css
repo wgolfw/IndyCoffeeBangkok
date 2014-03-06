@@ -854,7 +854,9 @@ h1#v-cafe-title {
 
 #cafe-details .cafe-data .brewing-slide ul li img {
     width:auto;
-    height:52px;
+    height:50px;
+    margin-top:1px;
+    margin-right:5px;
     /*    border:1px solid #000;*/
 }
 #cafe-details .cafe-data .cafe-map .map-name {

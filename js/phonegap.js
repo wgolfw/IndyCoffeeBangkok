@@ -177,7 +177,7 @@ function onDeviceReady() {
 
                             for (var i = 0; i < len; i++) {
                                 item = jsEncode(rows.item(i).data);
-                                news = eachOne(item.news);
+                                news = eachOne(item.news); 
                                 $.addNewsList({
                                     url: "#news-details?id=" + news.Id,
                                     newsId: news.Id,
@@ -185,6 +185,7 @@ function onDeviceReady() {
                                     detailsEn: news.Detailsen,
                                     thumb: getServerName() + news.Picture,
                                     lastUpdate: (news.Modifiedon.date).substr(0, 10),
+                                    shortDescription: news.Shortdescription,
                                 });
                                 ;
                             }
