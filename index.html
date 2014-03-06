@@ -334,17 +334,17 @@
 
         <script src="js/swipe.js"></script>
         <script>
-            
-            
+
+
             function slideControlShow() {
                 $('.pagination, .arrow-right, .arrow-left').css({'z-index': 8});
-                
-                setTimeout(function(){
+
+                setTimeout(function() {
                     $('.pagination, .arrow-right, .arrow-left').css({'z-index': 999, 'display': 'block'});
                 }, 100);
-                
+
             }
-            
+
             var isDetailsCafePage = null;
             var isDetailsNewsPage = null;
             var isInfoPage = false;
@@ -452,7 +452,7 @@
                 $('.btn-back-icon').hide();
 
                 if ((isDetailsCafePage === 'cafe') && (parseInt(index) === 0) && (isInfoPage)) {
-                    index = 4; 
+                    index = 4;
                     $('.btn-back-icon').show();
                     isInfoPage = false;
                     isDetailsCafePage = null;
@@ -465,11 +465,17 @@
                     isDetailsNewsPage = null;
                 }
 
-                
-                
+
                 mySwipe.slide(index, 1);
 
 
+                if (mySwipe.getPos() == 4) {
+                    isDetailsCafePage = 'cafe'; 
+                }
+
+                if (mySwipe.getPos() == 5) {
+                    isDetailsNewsPage = 'news';
+                }
 
             });
         </script>
