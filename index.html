@@ -469,13 +469,27 @@
                 mySwipe.slide(index, 1);
 
 
-                if (mySwipe.getPos() == 4) {
-                    isDetailsCafePage = 'cafe'; 
+                switch (mySwipe.getPos()) {
+                    case 0:
+                        isDetailsCafePage = null;
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        isDetailsNewsPage = null;
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        isDetailsCafePage = 'cafe';
+                        break;
+                    case 5:
+                        isDetailsNewsPage = 'news';
+                        break;
+                    case 6:
+                        break;
                 }
 
-                if (mySwipe.getPos() == 5) {
-                    isDetailsNewsPage = 'news';
-                }
 
             });
         </script>
