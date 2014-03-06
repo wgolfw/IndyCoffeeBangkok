@@ -1,6 +1,3 @@
-indy-coffee-bangkok
-===================
-
 Hybrid Moblie Application with Phonegap API (Android &amp; iOS)
 
 ## Skill
