@@ -1,6 +1,13 @@
 indy-coffee-bangkok
 ===================
 
-Hybrid Moblie Application (Android &amp; iOS)
+Hybrid Moblie Application with Phonegap API (Android &amp; iOS)
 
-Author: Golf Wanlop
+## Skill
+- HTML/CSS 
+- Javascript
+- JSON 
+- Phonegap API
+
+## License
+Copyright (c) 2013 Golf Wanlop Licensed 
