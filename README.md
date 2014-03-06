@@ -1,4 +1,5 @@
-## Hybrid Moblie Application with Phonegap API (Android &amp; iOS)
+## Hybrid Moblie Application with Phonegap API 
+Support Android & iOS Version
 
 ## Skill
 - HTML/CSS 
