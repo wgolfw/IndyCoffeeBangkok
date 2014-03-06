@@ -81,7 +81,7 @@ $.contentPage = function(options) {
         fitSize: function() {
             // opts.id.css({'height': h});
             $page.css({
-                //'height': h,
+                 'height': h,
                 // 'width': w,
                 //'margin-bottom': objH.tabMenu,
             });
@@ -416,9 +416,12 @@ $.addCafeList = function(options) {
 
     var $imgThumb = $('<img />', {
         'class': "thumbnail thumb-list",
-        'src': opts.thumb
+        'src': opts.thumb,
+        'style': 'display:none;'
     }).appendTo($divDataImage);
-
+    $imgThumb.load(function(){
+       $(this).show();
+    });
     $divDataDetail.appendTo($a);
     $divDataImage.appendTo($a);
     $a.appendTo($li);
@@ -436,6 +439,7 @@ $.addNewsList = function(options) {
         detailsEn: null,
         thumb: "#",
         lastUpdate: null,
+        shortDescription: null,
     }, options);
 
     var $li = $('<li />', {});
@@ -461,24 +465,17 @@ $.addNewsList = function(options) {
     var $divDesc = $('<div />', {
         'class': 'desc'
     });
-    /*
-     var $pDate = $('<p />', {
-     'class': 'news-date pull-right',
-     'html': opts.lastUpdate,
-     }).appendTo($divDesc);
-     */
+
     var $h1Title = $('<h1 />', {
         html: opts.title
     }).appendTo($divDesc);
-
+ 
     var $pDetail = $('<p/>', {
         'class': 'news-details',
-        'html': opts.detailsEn,
+        'html': opts.shortDescription,
     }).appendTo($divDesc);
 
     $divDesc.appendTo($divDataDetail);
-
-
 
     $divDataDetail.appendTo($a);
     $a.appendTo($li);
@@ -707,9 +704,7 @@ $.desktopRenderer = function(options) {
                     dayName: item["Dayofweek.Day"],
                 });
 
-                // 1= true
-                //  console.log(item.Title);
-                //  console.log('isClosed: ' + item["Dayofweek.Isclose"]);
+             
             });
             $.sortCafeList().orderByClosed();
             isCafeSync = true;
@@ -727,6 +722,7 @@ $.desktopRenderer = function(options) {
                     title: item.Title,
                     detailsEn: item.Detailsen,
                     thumb: getServerName() + item.Picture,
+                    shortDescription: item.Shortdescription,
                     lastUpdate: (item.Modifiedon.date).substr(0, 10),
                 });
             });

@@ -15,7 +15,7 @@ function getServerName() {
     if (isMobile()) {
           local = server;
     }
-    return local;
+    return server;
 }
 
 function getStateInternet() {

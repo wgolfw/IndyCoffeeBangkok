@@ -6,9 +6,51 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <script type="text/javascript" src="phonegap.js"></script>
-        
+
         <!-- LIB -->
         <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+
+
+        <script>
+            $.splash = function(callback) {
+                var $splash = $('.splash');
+                var windowWidth = $(window).width();
+                var iconWidth = windowWidth / 2;
+                var $logo = $splash.find('.splash-icon');
+                $logo.css({
+                    'width': iconWidth,
+                    'height': iconWidth,
+                    'margin-left': -(iconWidth / 2),
+                });
+                $splash.show();
+
+                $logo.css({
+                    'margin-top': -($logo.height() / 2),
+                });
+
+
+                var time = setTimeout(function() {
+                    if (callback != null) {
+                        callback();
+                    }
+                    clearTimeout(time);
+                }, 4000);
+            };
+            $(function() {
+
+                if (1 != 1) {
+                    $.splash(function() {
+                        $('.app').show();
+                        $('.splash').fadeOut(0, function() {
+
+                        });
+
+                    });
+                }
+            });
+        </script>
+
+
 
         <!-- BOOTSTAP  -->
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
@@ -24,10 +66,10 @@
         <script type="text/javascript" src="js/map/jquery.ui.map.min.js"></script>
         <script type="text/javascript" src="js/map/jquery.ui.map.extensions.js"></script>
         <script type="text/javascript" src="js/map/jquery.ui.map.services.min.js"></script>
-        
+
         <!-- SOCIAL SHARING -->
         <script type="text/javascript" src="js/SocialSharing.js"></script>
-        
+
         <link type="text/css" rel="stylesheet" href="css/style.css" />
         <link type="text/css" rel="stylesheet" href="css/media.css" />
 
@@ -37,229 +79,399 @@
         <script type="text/javascript" src="js/phonegap.js"></script>
         <script type="text/javascript" src="js/custom.js"></script>
 
-  
+
+        <style type="text/css">
+            .app {
+                /*display:none;*/
+            }
+            .splash {
+                background-color:#64a09e;
+                display:block;
+                width:100%;
+                height:100%;
+                z-index:999999999;
+
+                display:none;
+            }
+            .splash .splash-icon {
+                background-image:url('images/splash-icon.png'); 
+                background-size:cover;
+                background-position:center;
+
+                position:absolute;
+                top:50%;
+                left:50%;
+            }
+        </style>
     <body>
-       
-     
-        <div id="map_panel"><button class="btn btn-danger btn-sm">X</button></div>
-        
-        
-        <div class="container-page"  >
-            <header class="fixed">
-                <div class="row row-data">
-                    <div class="col-md-12 title-top  title-fixed">
-                        <h5 class="text-center"><span class="line-white">&nbsp;</span>INDY COFFEE BANGKOK<span class="line-white">&nbsp;</span></h5>
-                        
-                        
-                         <a href="javascript:void(0);" data-index="4" class="btn btn-link btn-left btn-back-icon btn-images ">Info</a>
-                        
-                        
-                        <h1 class="text-center">COFFEE SHOPS</h1>
-                        <button type="button" class="btn btn-link btn-left btn-back btn-images" style="display:none;">Back</button>
-                        <a href="javascript:void(0);" data-index="4" class="btn btn-link btn-right btn-info-icon btn-images ">Info</a>
+
+
+
+
+
+
+        <div class="splash"><div class="splash-icon"></div></div>
+        <div class="app">
+
+            <div id="map_panel"><button class="btn btn-danger btn-sm">X</button></div>
+
+
+            <div class="container-page"  >
+                <header class="fixed">
+                    <div class="row row-data">
+                        <div class="col-md-12 title-top  title-fixed">
+                            <h5 class="text-center"><span class="line-white">&nbsp;</span>INDY COFFEE BANGKOK<span class="line-white">&nbsp;</span></h5>
+
+
+                            <a href="javascript:void(0);" data-index="4" class="btn btn-link btn-left btn-back-icon btn-images ">Info</a>
+
+
+                            <h1 class="text-center">COFFEE SHOPS</h1>
+                            <button type="button" class="btn btn-link btn-left btn-back btn-images" style="display:none;">Back</button>
+                            <a href="javascript:void(0);" data-index="4" class="btn btn-link btn-right btn-info-icon btn-images ">Info</a>
+                        </div>
+                    </div>
+                </header>
+
+
+
+                <div id='mySwipe'  class='swipe'>
+                    <div class='swipe-wrap'>
+
+
+                        <!-- PAGE 1 -->
+                        <div>
+                            <div  id="page-home" class="col-md-12 page-content">
+                                <div class="cafe-list">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PAGE 2 -->
+                        <div>
+                            <div  id="page-map" class="col-md-12 page-content">
+                                <div id="map_canvas" class="map rounded"></div>
+                                <button class="btn btn-default btn-location">Location</button>
+                            </div>
+                        </div>
+
+                        <!-- NEWS PAGE 3 -->
+                        <div>
+                            <div  id="page-news" class="col-md-12 page-content">
+                                <div class="news-list">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ABOUT PAGE 4-->
+                        <div>
+                            <div  id="page-about" class="col-md-12 page-content">
+
+                                <div class="about">
+                                    <h1>ABOUT THE APP</h1>
+                                    <p class="about-txt">
+                                        Indy Coffee Bangkok App is a collection of the best independent cafes in Bangkok brewing the finest coffees you can find. We created this app from our love for coffee, and hope that through this app, you too can experience and enjoy bangkok's best cafes. Please drop us an email if you have any comments or suggestions. We'd love to hear your feedback!
+                                        <br>     <br>
+                                        If you know of an exceptional quality cafe/roaster, please do not hesitate to contact us!  We'll be happy to add them to our ever growing list.  
+                                    </p>
+
+                                    <div class="clearfix"></div>
+                                    <h1>DEVELOPMENT TEAM </h1>
+
+
+                                    <div class="company-logo">
+                                        <img src="images/com-logo.png" class="logo" />
+                                    </div>
+
+                                    <ul class="about-txt">
+                                        <li><a href="mailto:kridsada@bluepano.com">kridsada@bluepano.com</a></li>
+                                        <li><a href="javascript:openBrowser('http://www.bluepano.com')">www.bluepano.com</a></li>
+                                        <li>BLUEPANO | Gismography Co., Ltd.</li>
+                                        <li>145 Sukhumvit 49 Klongton Nua</li>
+                                        <li>Wattana, Bangkok, Thailand 10110</li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>    
+
+                        <!-- CAFE DETAILS PAGE 5 -->
+                        <div>
+                            <div id="page-cafe-details" class="col-md-12 page-content ">
+
+                            </div>    
+                        </div>
+
+                        <!-- NEWS DETAILS PAGE 6 -->
+                        <div>
+                            <div id="page-news-details" class="col-md-12 page-content ">
+
+                            </div>
+                        </div>
+
+
+                        <!-- PAGE 7 -->
+                        <div>
+                            <!-- ICONS PAGE -->
+                            <div id="page-icons" class="col-md-12  page-content dragend-page">
+                                <div class="icons-cafe">
+                                    <h1>BREWING</h1>
+                                    <div class="sect-icon brewing-method">
+                                        <ul>
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/chemex.png" />
+                                                    CHEMEX
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/brewt.png" />
+                                                    BREW
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/aeropress.png" />
+                                                    AREOPRESS
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/stovetop.png" />
+                                                    STOVETOP
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/kone.png" />
+                                                    KONE
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/press.png" />
+                                                    FRENCH PRESS
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/siphon.png" />
+                                                    SIPHON
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/brewing/ibriks.png" />
+                                                    IBRIKS
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                    <hr>
+
+
+
+                                    <h1>MAP </h1>
+                                    <div class="sect-icon brewing-method">
+                                        <ul>
+                                            <li><a href="#">
+                                                    <img src="images/icons/get-me-there.png" />
+                                                    GETTING THERE
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/coffee-shop.png" />
+                                                    COFFEE SHOP
+                                                </a></li>
+                                        </ul> 
+                                    </div>
+                                    <hr>
+
+
+                                    <h1>SHOP</h1>
+                                    <div class="sect-icon brewing-method">
+                                        <ul>
+                                            <li><a href="#">
+                                                    <img src="images/icons/wifi.png" />
+                                                    FREE WIFI
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/bike.png" />
+                                                    BICYCLE PARKING 
+                                                </a></li>
+                                            <li><a href="#">
+                                                    <img src="images/icons/car.png" />
+                                                    CAR PARKING
+                                                </a></li>
+
+                                            <li><a href="#">
+                                                    <img src="images/icons/pets.png" />
+                                                    PET ALLOWED
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-            </header>
 
-            <!-- CONTENT -->
-            <div class="row row-data page" style="">
 
-                <!-- HOME PAGE -->
-                <div  id="page-home" class="col-md-12 page-content dragend-page">
-                    
- 
-                    <div class="cafe-list">
-                        <ul></ul>
-                    </div>
-                </div>
 
-                <!-- MAPS PAGE -->
-                <div  id="page-map" class="col-md-12 page-content dragend-page">
-                    <div id="map_canvas" class="map rounded"></div>
-                    <button class="btn btn-default btn-location">Location</button>
-                </div>
 
-                <!-- NEWS PAGE -->
-                <div  id="page-news" class="col-md-12 page-content dragend-page">
 
-                    <div class="news-list">
-                        <ul></ul>
-                    </div>
-
-                </div>
-
-                <!-- ABOUT PAGE -->
-                <div  id="page-about" class="col-md-12 page-content dragend-page">
-
-                    <div class="about">
-                        <h1>ABOUT THE APP</h1>
-                        <p class="about-txt">
-                            Indy Coffee Bangkok App is a collection of the best independent cafes in Bangkok brewing the finest coffees you can find. We created this app from our love for coffee, and hope that through this app, you too can experience and enjoy bangkok's best cafes. Please drop us an email if you have any comments or suggestions. We'd love to hear your feedback!
-                            <br>     <br>
-                          If you know of an exceptional quality cafe/roaster, please do not hesitate to contact us!  We'll be happy to add them to our ever growing list.  
-                        </p>
-                        
-                        
-                        <!--
-                        <h1>THE CURATORS</h1>
-                        <div class="team">
+                <footer class="tab">
+                    <div class="row">
+                        <div class="col-md-12 tab-menu">
                             <ul>
-                                <li>
-                                    <img src="images/icons/team.png">
-                                    <p class="text-center">Bluepaner G.</p>
-                                </li>
-                                <li>
-                                    <img src="images/icons/team.png">
-                                    <p class="text-center">Bluepaner G.</p>
-                                </li>
-                                <li>
-                                    <img src="images/icons/team.png">
-                                    <p class="text-center">Bluepaner G.</p>
-                                </li>
-                                <li>
-                                    <img src="images/icons/team.png">
-                                    <p class="text-center">Bluepaner G.</p>
-                                </li>
+                                <li><a href="#home" data-index="0" data-title="COFFEE SHOPS" data-page="page-home" class="me-icon-home selected"></a></li>
+                                <li><a href="#map" data-index="1" data-title="MAP" data-page="page-map" class="me-icon-map "></a></li>
+                                <li><a href="#news" data-index="2" data-title="PROMOTIONS" data-page="page-news" class="me-icon-news"></a></li>
+                                <li><a href="#about" data-index="3" data-title="ABOUT" data-page="page-about" class="me-icon-about"></a></li>
                             </ul>
                         </div>
-                        -->
-
-                        <div class="clearfix"></div>
-                        <h1>DEVELOPMENT TEAM </h1>
-                        
-                        
-                        <div class="company-logo">
-                            <img src="images/com-logo.png" class="logo" />
-                        </div>
-                         
-                            <ul class="about-txt">
-                                <li><a href="mailto:kridsada@bluepano.com">kridsada@bluepano.com</a></li>
-                                <li><a href="javascript:openBrowser('http://www.bluepano.com')">www.bluepano.com</a></li>
-                                <li>BLUEPANO | Gismography Co., Ltd.</li>
-                                <li>145 Sukhumvit 49 Klongton Nua</li>
-                                <li>Wattana, Bangkok, Thailand 10110</li>
-                            </ul>
-                       
-
-                        <div class="clearfix"></div>
-                        
                     </div>
-
-                </div>
-
-                <!-- ICONS PAGE -->
-                <div id="page-icons" class="col-md-12  page-content dragend-page">
-                    <div class="icons-cafe">
-                        <h1>BREWING</h1>
-                        <div class="sect-icon brewing-method">
-                            <ul>
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/chemex.png" />
-                                        CHEMEX
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/brewt.png" />
-                                        BREWT
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/aeropress.png" />
-                                        AREOPRESS
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/stovetop.png" />
-                                        STOVETOP
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/kone.png" />
-                                        KONE
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/press.png" />
-                                        FRENCH PRESS
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/siphon.png" />
-                                        SIPHON
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/brewing/ibriks.png" />
-                                        IBRIKS
-                                    </a></li>
-                            </ul>
-                        </div>
-                        <hr>
-
-
-
-                        <h1>MAP </h1>
-                        <div class="sect-icon brewing-method">
-                            <ul>
-                                <li><a href="#">
-                                        <img src="images/icons/get-me-there.png" />
-                                        GET ME THERE
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/coffee-shop.png" />
-                                        COFFEE SHOP
-                                    </a></li>
-                            </ul> 
-                        </div>
-                        <hr>
-
-
-                        <h1>SHOP</h1>
-                        <div class="sect-icon brewing-method">
-                            <ul>
-                                <li><a href="#">
-                                        <img src="images/icons/wifi.png" />
-                                        FREE WIFI
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/bike.png" />
-                                        BICYCLE PARKING 
-                                    </a></li>
-                                <li><a href="#">
-                                        <img src="images/icons/car.png" />
-                                        CAR PARKING
-                                    </a></li>
-
-                                <li><a href="#">
-                                        <img src="images/icons/pets.png" />
-                                        PET ALLOWED
-                                    </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- CAFE DETAILS -->
-                <div id="page-cafe-details" class="col-md-12 page-content "></div>
+                </footer>
             </div>
-            <!-- END CONTENT -->
-
-
-            <footer class="tab">
-                <div class="row">
-                    <div class="col-md-12 tab-menu">
-                        <ul>
-                            <li><a href="#home" data-index="0" data-title="COFFEE SHOPS" data-page="page-home" class="me-icon-home"></a></li>
-                            <li><a href="#map" data-index="1" data-title="MAP" data-page="page-map" class="me-icon-map "></a></li>
-                            <li><a href="#news" data-index="2" data-title="NEWS" data-page="page-news" class="me-icon-news"></a></li>
-                            <li><a href="#about" data-index="3" data-title="ABOUT" data-page="page-about" class="me-icon-about"></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
         </div>
+
+
+        <script src="js/swipe.js"></script>
+        <script>
+            
+            
+            function slideControlShow() {
+                $('.pagination, .arrow-right, .arrow-left').css({'z-index': 8});
+                
+                setTimeout(function(){
+                    $('.pagination, .arrow-right, .arrow-left').css({'z-index': 999, 'display': 'block'});
+                }, 100);
+                
+            }
+            
+            var isDetailsCafePage = null;
+            var isDetailsNewsPage = null;
+            var isInfoPage = false;
+
+            var elem = document.getElementById('mySwipe');
+            window.mySwipe = Swipe(elem, {
+                startSlide: 0,
+                speed: 400,
+                auto: false,
+                continuous: false,
+                disableScroll: false,
+                stopPropagation: false,
+                callback: function(index, elem) {
+
+                },
+                transitionEnd: function(index, elem) {
+                }
+            });
+
+            $(document).on('click', '.tab-menu ul li a', function() {
+
+                if ($(this).hasClass('selected')) {
+                    return;
+                }
+                $('.tab-menu ul li a').removeClass('selected');
+
+                $(this).addClass('selected');
+                if ((!($(this).hasClass('btn-info-icon'))) && (!($(this).hasClass('btn-cafe-details')))) {
+                    $('.title-fixed h1').html($(this).attr('data-title'));
+                    $('.tab-menu ul li a, .btn-info-icon, .btn-cafe-details').css({'background-position': '0 0'});
+                    $(this).css({'background-position': '0 -40px'});
+                    isInfoPage = false;
+                }
+
+
+                $('.btn-back-icon').hide();
+                var index = $(this).attr('data-index');
+
+                if ((isDetailsCafePage === 'cafe') && (parseInt(index) === 0)) {
+                    index = 4;
+                    $('.btn-back-icon').show();
+                }
+
+                if ((isDetailsNewsPage === 'news') && (parseInt(index) === 2)) {
+                    index = 5;
+                    $('.btn-back-icon').show();
+                }
+
+                mySwipe.slide(index, 1);
+                delete(index);
+
+            });
+
+            $(document).on('click', '.cafe-list ul li a', function(e) {
+
+                var index = $(this).attr('data-index');
+                var cafeId = $(this).attr('data-id');
+
+                window.location.hash = "cafeId=" + cafeId;
+
+                var jqxhr = $.ajax({
+                    url: "cafe-details.html",
+                    data: {cafeId: cafeId},
+                }).done(function(data) {
+                    $('.btn-back-icon').show();
+                    $('#page-cafe-details').html(data);
+                    mySwipe.slide(4, 1);
+                    isDetailsCafePage = 'cafe';
+                });
+
+                delete(index);
+                delete(cafeId);
+            });
+
+            $(document).on('click', '.news-list ul li a', function(e) {
+                var index = $(this).attr('data-index');
+                var newsId = $(this).attr('data-id');
+                window.location.hash = "newsId=" + newsId;
+                $('#page-news-details').empty();
+                var jqxhr = $.ajax({
+                    url: "news-details.html",
+                    data: {newsId: newsId},
+                }).done(function(data) {
+                    $('.btn-back-icon').show();
+                    $('#page-news-details').html(data);
+                    mySwipe.slide(5, 1);
+                    isDetailsNewsPage = 'news';
+                });
+
+                delete(index);
+                delete(newsId);
+            });
+
+
+
+            $(document).on('click', '.btn-info-icon', function(e) {
+                mySwipe.slide(6, 1);
+                $('.btn-back-icon').show();
+                isInfoPage = true;
+            });
+
+            $(document).on('click', '.btn-back-icon', function(e) {
+                var $tab = $('.tab-menu ul li a.selected');
+                var index = $tab.attr('data-index');
+                $('.btn-back-icon').hide();
+
+                if ((isDetailsCafePage === 'cafe') && (parseInt(index) === 0) && (isInfoPage)) {
+                    index = 4; 
+                    $('.btn-back-icon').show();
+                    isInfoPage = false;
+                    isDetailsCafePage = null;
+                }
+
+                if ((isDetailsNewsPage === 'news') && (parseInt(index) === 2) && (isInfoPage)) {
+                    index = 5;
+                    $('.btn-back-icon').show();
+                    isInfoPage = false;
+                    isDetailsNewsPage = null;
+                }
+
+                
+                
+                mySwipe.slide(index, 1);
+
+
+
+            });
+        </script>
     </body>
 </html>

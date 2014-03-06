@@ -1,3 +1,18 @@
+<style>
+    .share {
+        width: 37px;
+        height: 30px;
+        margin: 4px 0 0 0;
+        clear: both;
+        position: absolute;
+        right: 10px;
+        bottom: 66px;
+        display:none;
+    }
+    .share a {
+        background-size:cover;
+    }
+</style>
 <script>
     $(function() {
 
@@ -33,38 +48,38 @@
                 });
 
 
-
+ $('.arrow-right, .arrow-left, .pagination').css({'visibility': 'hidden'});
                 if (isMobile()) {
-                    $('.arrow-right, .arrow-left, .pagination').css({'visibility': 'hidden'});
+                     
                 }
 
                 galleryHeight();
 
-                var mySwiper = new Swiper('.swiper-container', {
-                    pagination: '.pagination',
+                var mySwiper = new Swiper('#swiper-container-news', {
+                    pagination: '.news .pagination',
                     loop: true,
                     grabCursor: true,
+                     autoplay: 3000,
                     paginationClickable: true
                 })
-                $('.arrow-left').on('click', function(e) {
+                $('.news .arrow-left').on('click', function(e) {
                     e.preventDefault();
                     mySwiper.swipePrev();
                 })
-                $('.arrow-right').on('click', function(e) {
+                $('.news .arrow-right').on('click', function(e) {
                     e.preventDefault();
                     mySwiper.swipeNext();
                 })
-                $('.swiper').css({'visibility': 'visible'});
+                $('#swiper-news').css({'visibility': 'visible'});
 
 
 
 
             } else {
-                $('.swiper').fadeOut(0);
+                $('#swiper-news').fadeOut(0);
             }
 
-            // success
-            $('.btn-back-icon').show();
+            // success 
             $('.news-data').css({'display': 'block'});
 
             $('.share a').bind('click', function() {
@@ -95,13 +110,13 @@
     });
 </script>
 
-<div id="cafe-details" class="col-md-12 page-content" style="padding:0; margin:0; overflow-x:hidden;"> 
+<div id="cafe-details" class="col-md-12 page-content news" style="padding:0; margin:0; overflow-x:hidden;"> 
 
 
-    <div class="swiper" style="margin-bottom:0;">
+    <div class="swiper" style="margin-bottom:0;" id="swiper-news">
         <a class="arrow-left" href="#"></a> 
         <a class="arrow-right" href="#"></a>
-        <div class="swiper-container">
+        <div class="swiper-container" id="swiper-container-news">
             <div class="swiper-wrapper">
 
             </div>
@@ -113,7 +128,7 @@
 
 
     <div class="cafe-data news-data" style="display:none;">
-        <div class="brewing-slide" style="margin:0;">
+        <div class="brewing-slide" style="margin:0;height:40px !important;padding: 0 10px !important;width:100% !important;">
             <h1 id="v-news-title">&nbsp;</h1>
             <div class="share pull-right">
                 <a href="javascript:void(0);">Share</a>

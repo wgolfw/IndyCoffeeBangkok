@@ -71,11 +71,7 @@ function onConnectionInternet(buttonIndex) {
 
 function onDeviceReady() {
 
-//    ver = iOSversion();
-//
-//    if (ver[0] >= 5) {
-//
-//    }
+ 
 
 
     if (isOnDeviceReadyEventActive > 1) {
@@ -96,8 +92,7 @@ function onDeviceReady() {
     $.freeze().show();
     $(window).scrollTop(0);
     $.contentPage().fitSize();
-    $.device().android(function() {
-        //$('.page-content').css({'overflow': 'auto'});
+    $.device().android(function() { 
         $('.page').css({
             'overflow': 'auto',
             'height': $(window).height() - $('.title-top').height(),
@@ -118,36 +113,6 @@ function onDeviceReady() {
         setWidthNewsList();
         $('#page-home').css({'background-color': '#353535'});
 
-        $('.news-list ul li a').bind('click', function() {
-            var index = $(this).attr('data-index');
-            var newsId = $(this).attr('data-id');
-            window.location.hash = "newsId=" + newsId;
-            historyPage = 'NEWS-DETAILS';
-
-            var jqxhr = $.ajax({
-                url: "news-details.html",
-                data: {newsId: newsId},
-            }).done(function(data) {
-                var $pageCafeDetails = $('#page-cafe-details');
-                $pageCafeDetails.html(data);
-                $.contentPage().activePage(index);
-            });
-        });
-        $('.cafe-list ul li a').bind('click', function() {
-            var index = $(this).attr('data-index');
-            var cafeId = $(this).attr('data-id');
-            window.location.hash = "cafeId=" + cafeId;
-            historyPage = 'CAFE-DETAILS';
-
-            var jqxhr = $.ajax({
-                url: "cafe-details.html",
-                data: {cafeId: cafeId},
-            }).done(function(data) {
-                var $pageCafeDetails = $('#page-cafe-details');
-                $pageCafeDetails.html(data);
-                $.contentPage().activePage(index);
-            });
-        });
     };
 
 
@@ -234,59 +199,13 @@ function onDeviceReady() {
 
     $.desktopRenderer({
         callback: function() {
-            afterSync();
-            console.log('**** DESKTOP SYNC SUCCESS ****');
+            afterSync(); 
         }
     });
 
 
-    $('.btn-back-icon').bind('click', function() {
-        $('.btn-back-icon').hide();
-
-        switch (historyPage) {
-            case 'MAP-DETAILS':
-                $('.me-icon-map').trigger('click');
-                break;
-            case 'CAFE-DETAILS':
-                //window.location.reload();
-                $('.me-icon-home').trigger('click');
-                break;
-            case 'NEWS-DETAILS':
-                $('.me-icon-news').trigger('click');
-                break;
-            default:
-                $('.btn-back-icon').show();
-                break;
-        }
-    });
-    $('.tab-menu ul li a, .btn-info-icon, .btn-cafe-details').bind('click', function() {
-        $(window).scrollTop(0);
-        $(this).addClass('selected');
-        var index = $(this).attr('data-index');
-        var title = $(this).attr('data-title');
-
-        historyPage = title;
-        //console.log(historyPage);
-
-        if ((!($(this).hasClass('btn-info-icon'))) && (!($(this).hasClass('btn-cafe-details')))) {
-            $('.title-fixed h1').html($(this).attr('data-title'));
-            $('.tab-menu ul li a, .btn-info-icon, .btn-cafe-details').css({'background-position': '0 0'});
-            $(this).css({'background-position': '0 -40px'});
-        }
-
-        $.contentPage().activePage(index);
-        if (title === "MAP") {
-            var $cafeMap = $("#map_canvas");
-
-            $cafeMap.gmap('option', 'draggable', true);
-
-            //
-            $cafeMap.gmap("refresh");
-            $cafeMap.gmap('option', 'zoom', 18);
-        } else if (title === "NEWS") {
-
-        }
-    });
+   
+    
 }
 
 
