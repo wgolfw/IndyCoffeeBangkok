@@ -580,6 +580,7 @@ div[id^="page-"] > p {
     text-overflow: ellipsis;
     overflow: hidden;
     /* white-space: pre-wrap; */
+    margin-top:5px;
 }
 .news-list ul li .data-detail p.news-details p {
     /*line-height: 18px;
@@ -693,6 +694,7 @@ div[id^="page-"] > p {
     text-align:center;
     height:100%;
     text-decoration:none;
+   
 
 }
 .icons-cafe ul li a img {
@@ -773,7 +775,7 @@ h1#v-cafe-title {
     font-family: 'thaisansneue-extra-light';
     padding-left: 17px;
     font-size: 18px;
-
+    line-height:18px;
 }
 
 #cafe-details .cafe-data .details-txt p { 
@@ -1105,10 +1107,10 @@ span[id^="day-"]{
 }
 
 .btn-location {
-    z-index: 999;
+    z-index: 9999;
     position: absolute;
     right: 8px;
-    bottom: 80px;
+    bottom: 10px;
 }
 
 .no-drag {

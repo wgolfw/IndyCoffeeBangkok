@@ -291,7 +291,10 @@
 
                         var reviewEn = (item.Reviewen).replace(/(<([^>]+)>)/ig, "");
                         reviewEn = reviewEn.replace(/&nbsp;/ig, "");
-                        window.plugins.socialsharing.share(reviewEn, 'Indy Coffee Bangkok', getServerName() + item.Picture);
+                        
+                        var msg = item.Title + '\n\n' + item.Location + '\n\n' + '**Indy Coffee Bangkok App** \n Find Bangkok\'s Best Independent Coffee Shops.on App Store and Play Store!';
+                       
+                        window.plugins.socialsharing.share(msg, 'Indy Coffee Bangkok', getServerName() + item.Picture);
                     });
 
                     $('#v-cafe-title').html(item.Location);

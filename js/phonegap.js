@@ -35,9 +35,9 @@ function onOffline() {
     if (getStateInternet() === false) {
         ++isOnOfflineEventActive;
         navigator.notification.confirm(
-                'Please connect internet', // message
+                'Please turn on Wi-Fi or 3G to use this App', // message
                 onConnectionInternet, // callback to invoke
-                'Internet lost', // title
+                'No Internet Connection', // title
                 'Continue,Try again', // buttonLabels
                 '' // defaultText
                 );
